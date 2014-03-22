@@ -1,0 +1,22 @@
+{
+  "name": "static-site-boilerplate",
+  "version": "0.0.1",
+  "homepage": "https://github.com/bdadam/static-site-boilerplate",
+  "authors": [
+    "bdadam <bdadam@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "src/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "almond": "~0.2.9",
+    "requirejs": "~2.1.11"
+  }
+}

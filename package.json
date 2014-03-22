@@ -1,0 +1,29 @@
+{
+  "name": "static-site-boilerplate",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Some boilerplate code for static site generation",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bdadam/static-site-boilerplate.git"
+  },
+  "author": "Adam Beres-Deak <me@bdadam.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bdadam/static-site-boilerplate/issues"
+  },
+  "homepage": "https://github.com/bdadam/static-site-boilerplate",
+  "devDependencies": {
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt": "~0.4.4",
+    "grunt-contrib-requirejs": "~0.4.3",
+    "grunt-hashres": "~0.4.1",
+    "matchdep": "~0.3.0",
+    "assemble": "~0.4.37",
+    "grunt-contrib-less": "~0.11.0",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-connect": "~0.7.1",
+    "pretty": "~0.1.2"
+  }
+}

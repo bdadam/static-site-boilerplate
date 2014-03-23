@@ -1,4 +1,9 @@
 module.exports = function(grunt) {
+
+    require('time-grunt')(grunt);
+
+    var devmode = grunt.option('dev');
+
     grunt.initConfig({
         assemble: {
             options: {
@@ -11,7 +16,7 @@ module.exports = function(grunt) {
 
             site: {
                 options: {
-                    postprocess: require('pretty')
+                    postprocess: devmode ? false : require('pretty')
                 },
                 files: [{
                     expand: true,
@@ -40,22 +45,22 @@ module.exports = function(grunt) {
             }
         },
 
+        uncss: {
+            dist: {
+                files: {
+                    'dist/static/main.css': ['dist/**/*.html']
+                }
+            }
+        },
+
         requirejs: {
             options: {
                 baseUrl: 'src/js',
                 wrap: true,
                 optimizeAllPluginResources: true,
-                //optimize: 'none',
+                optimize: devmode ? 'none' : "uglify2",
                 findNestedDependencies: true
             },
-
-            /*'main-almond': {
-                options: {
-                    name: '../bower_components/almond/almond',
-                    include: ['main'],
-                    out: 'dist/static/main.js'
-                }
-            },*/
 
             main: {
                 options: {
@@ -72,8 +77,6 @@ module.exports = function(grunt) {
                 renameFiles: false
             },
             dist: {
-                options: {
-                },
                 src: ['dist/static/main.css', 'dist/static/main.js'],
                 dest: 'dist/**/*.html'
             }
@@ -98,7 +101,7 @@ module.exports = function(grunt) {
 
             less: {
                 files: ['src/**/*.less'],
-                tasks: ['less', 'hashres']
+                tasks: ['less', 'uncss', 'hashres']
             },
 
             requirejs: {
@@ -113,9 +116,14 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('build', ['clean', 'less', 'requirejs', 'assemble', 'hashres']);
+    grunt.registerTask('build', ['clean', 'assemble', 'less', 'uncss', 'requirejs', 'hashres']);
     grunt.registerTask('default', ['build', 'connect', 'watch']);
 
     grunt.loadNpmTasks('assemble');
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+
+//    if (devmode) {
+//        grunt.task.registerTask('hashres', function(){ console.log('Skipping hashres task because of --dev flag'); });
+//        grunt.task.registerTask('uncss', function(){ console.log('Skipping uncss task because of --dev flag'); });
+//    }
 };

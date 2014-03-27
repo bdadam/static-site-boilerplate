@@ -38,4 +38,5 @@ All tasks accept a `--dev` flag, which disables CPU intensive tasks like JS-opti
 
 ## Who is using this boilerplate?
 [bdadam.com](http://bdadam.com/)
+
 [the-game-of-love.com](http://the-game-of-love.com/)

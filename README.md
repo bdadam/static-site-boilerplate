@@ -28,13 +28,21 @@ After every change the affected files are regenerated.
 1. `grunt watch` - checks for file modifications and runs the appropriate tasks
 1. `grunt dev` - runs a complete build and then waits for modifications (watch)
 
+### Karma support (JavaScript unit testing)
+
+1. `grunt karma:dist` - runs JS unit tests in Chrome, Firefox, IE and PhantomJS
+1. `grunt karma:dev` - runs JS unit tests in PhantomJS only
+
+
 All tasks accept a `--dev` flag, which disables many optimizations (minification), enables source maps, etc. This should only be used during development.
 
 
 ## What is included?
 1. Static site generation with [Assemble](http://assemble.io/)
 1. Generating and minifying a single CSS file with Less
-1. Generating and minifying a single JavaScript file with RequireJS
+1. Generating and minifying a single JavaScript file with RequireJS or WebPack
+1. Linting JS files with ESlint
+1. Unit testing for JavaScript with Karma
 1. Generating hash (cache buster) for JS and CSS files
 1. Automatic regeneration and Liverload during development
 

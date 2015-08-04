@@ -109,6 +109,31 @@ module.exports = function(grunt) {
             }
         },
 
+        karma: {
+            options: {
+                configFile: 'karma.conf.js',
+                browsers: ['PhantomJS', 'Chrome', 'IE9', 'Firefox'],
+                singleRun: true,
+            },
+            dist: {
+                reporters: 'progress'
+            },
+            teamcity: {
+                reporters: 'teamcity'
+            },
+            dev: {
+                reporters: 'spec',
+                browsers: ['PhantomJS'],
+                /*background: true,
+                singleRun: false,
+                autoWatch: true*/
+            }
+        },
+
+        eslint: {
+            src: ['src/js/**/*.js']
+        },
+
         hashres: {
             options: {
                 fileNameFormat: '${name}.${ext}?${hash}',
@@ -142,9 +167,14 @@ module.exports = function(grunt) {
                 tasks: ['buildCSS', 'hashres']
             },
 
-            requirejs: {
+            js: {
                 files: ['src/js/**/*.js'],
                 tasks: ['buildJS', 'hashres']
+            },
+
+            jstest: {
+                files: ['test/**/*.js'],
+                tasks: ['karma:dev']
             },
 
             assemble: {
@@ -160,7 +190,7 @@ module.exports = function(grunt) {
 
     // Use either of these two tasks, depending on whether you use RequireJS or WebPack
     grunt.registerTask('buildJS', ['requirejs']);
-    //grunt.registerTask('buildJS', ['webpack']);
+    //grunt.registerTask('buildJS', ['eslint', 'webpack', 'karma:dev']);
 
     grunt.registerTask('build', ['clean', 'assemble', 'buildCSS', 'buildJS', 'hashres']);
     grunt.registerTask('default', ['build']);
@@ -168,5 +198,6 @@ module.exports = function(grunt) {
     grunt.registerTask('dev', ['build', 'connect', 'watch']);
 
     grunt.loadNpmTasks('assemble');
+    grunt.loadNpmTasks("gruntify-eslint");
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 };

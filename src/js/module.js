@@ -1,4 +1,8 @@
 module.exports = {
-    a: 5,
+    
+    add: function(a, b) {
+        return a + b;
+    },
+
     b: 4343
 };

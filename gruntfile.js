@@ -1,3 +1,5 @@
+var webpack = require('webpack');
+
 module.exports = function(grunt) {
 
     require('time-grunt')(grunt);
@@ -45,10 +47,28 @@ module.exports = function(grunt) {
             }
         },
 
-        uncss: {
+        sass: {
+            options: {
+                sourceMap: !!devmode,
+                outputStyle: 'expanded'
+            },
             dist: {
                 files: {
-                    'dist/static/main.css': ['dist/**/*.html']
+                    'dist/static/main.css': 'src/scss/main.scss'
+                }
+            }
+        },
+
+        pleeease: {
+            dist: {
+                options: {
+                    autoprefixer: { browsers: ['last 4 versions', 'ios 6'] },
+                    filters: { oldIE: true },
+                    rem: ['12px'],
+                    minifier: true,
+                },
+                files: {
+                    'dist/static/main.css': 'dist/static/main.css'
                 }
             }
         },
@@ -68,6 +88,24 @@ module.exports = function(grunt) {
                     include: ['main'],
                     out: 'dist/static/main.js'
                 }
+            }
+        },
+
+        webpack: {
+            dist: {
+                entry: './src/js/main.js',
+                output: {
+                    path: "./dist/static",
+                    filename: "main.js",
+                },
+                stats: true,
+                progress: true,
+                failOnError: false,
+                cache: {},
+                plugins: !devmode ? [
+                    new webpack.optimize.DedupePlugin(),
+                    new webpack.optimize.UglifyJsPlugin()
+                ] : []
             }
         },
 
@@ -99,14 +137,14 @@ module.exports = function(grunt) {
                 spawn: false
             },
 
-            less: {
-                files: ['src/**/*.less'],
-                tasks: ['less', 'uncss', 'hashres']
+            css: {
+                files: ['src/**/*.less', 'src/**/*.scss'],
+                tasks: ['buildCSS', 'hashres']
             },
 
             requirejs: {
                 files: ['src/js/**/*.js'],
-                tasks: ['requirejs', 'hashres']
+                tasks: ['buildJS', 'hashres']
             },
 
             assemble: {
@@ -116,14 +154,19 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('build', ['clean', 'assemble', 'less', 'uncss', 'requirejs', 'hashres']);
-    grunt.registerTask('default', ['build', 'connect', 'watch']);
+    // Use either of these two tasks, depending on whether you use less or scss
+    grunt.registerTask('buildCSS', ['less', 'pleeease']);
+    //grunt.registerTask('buildCSS', ['sass', 'pleeease']);
+
+    // Use either of these two tasks, depending on whether you use RequireJS or WebPack
+    grunt.registerTask('buildJS', ['requirejs']);
+    //grunt.registerTask('buildJS', ['webpack']);
+
+    grunt.registerTask('build', ['clean', 'assemble', 'buildCSS', 'buildJS', 'hashres']);
+    grunt.registerTask('default', ['build']);
+
+    grunt.registerTask('dev', ['build', 'connect', 'watch']);
 
     grunt.loadNpmTasks('assemble');
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
-
-//    if (devmode) {
-//        grunt.task.registerTask('hashres', function(){ console.log('Skipping hashres task because of --dev flag'); });
-//        grunt.task.registerTask('uncss', function(){ console.log('Skipping uncss task because of --dev flag'); });
-//    }
 };

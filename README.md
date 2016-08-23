@@ -10,7 +10,7 @@ Some boilerplate code for static site generation
 1. Simply run `grunt build` to see that everything works
 
 ## How to work with this?
-You can run `grunt --dev` while developing. This starts a new web server on port 3000 (http://localhost:3000/).
+You can run `grunt dev` while developing. This starts a new web server on port 3000 (http://localhost:3000/).
 After every change the affected files are regenerated.
 
 ## Available Grunt tasks

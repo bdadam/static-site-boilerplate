@@ -185,8 +185,8 @@ module.exports = function(grunt) {
     });
 
     // Use either of these two tasks, depending on whether you use less or scss
-    grunt.registerTask('buildCSS', ['less', 'pleeease']);
-    //grunt.registerTask('buildCSS', ['sass', 'pleeease']);
+    //grunt.registerTask('buildCSS', ['less', 'pleeease']);
+    grunt.registerTask('buildCSS', ['sass', 'pleeease']);
 
     // Use either of these two tasks, depending on whether you use RequireJS or WebPack
     grunt.registerTask('buildJS', ['requirejs']);

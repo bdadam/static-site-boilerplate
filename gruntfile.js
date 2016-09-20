@@ -1,9 +1,5 @@
 module.exports = function(grunt) {
 
-    // require('time-grunt')(grunt);
-
-    var devmode = grunt.option('dev');
-
     grunt.initConfig({
         assemble: {
             options: {
@@ -15,9 +11,6 @@ module.exports = function(grunt) {
             },
 
             site: {
-                options: {
-                    postprocess: devmode ? false : require('pretty')
-                },
                 files: [{
                     expand: true,
                     flatten: false,
@@ -25,27 +18,6 @@ module.exports = function(grunt) {
                     src: ['**/*.{md,hbs,html,xml}'],
                     dest: 'dist'
                 }]
-            }
-        },
-
-        karma: {
-            options: {
-                configFile: 'karma.conf.js',
-                browsers: ['PhantomJS', 'Chrome', 'IE9', 'Firefox'],
-                singleRun: true,
-            },
-            dist: {
-                reporters: 'progress'
-            },
-            teamcity: {
-                reporters: 'teamcity'
-            },
-            dev: {
-                reporters: 'spec',
-                browsers: ['PhantomJS'],
-                /*background: true,
-                singleRun: false,
-                autoWatch: true*/
             }
         },
 
@@ -60,43 +32,61 @@ module.exports = function(grunt) {
             }
         },
 
-        connect: {
-            dev: {
-                options: {
-                    hostname: '0.0.0.0',
-                    port: 3000,
-                    base: 'dist',
-                    livereload: true
-                }
-            }
-        },
+        // karma: {
+        //     options: {
+        //         configFile: 'karma.conf.js',
+        //         browsers: ['PhantomJS', 'Chrome', 'IE9', 'Firefox'],
+        //         singleRun: true,
+        //     },
+        //     dist: {
+        //         reporters: 'progress'
+        //     },
+        //     teamcity: {
+        //         reporters: 'teamcity'
+        //     },
+        //     dev: {
+        //         reporters: 'spec',
+        //         browsers: ['PhantomJS']
+        //     }
+        // },
 
-        watch: {
-            options: {
-                livereload: true,
-                spawn: false
-            },
+        // connect: {
+        //     dev: {
+        //         options: {
+        //             hostname: '0.0.0.0',
+        //             port: 3000,
+        //             base: 'dist',
+        //             livereload: true
+        //         }
+        //     }
+        // },
 
-            css: {
-                files: ['src/**/*.less', 'src/**/*.scss'],
-                tasks: ['buildCSS', 'hashres']
-            },
+        // watch: {
+        //     options: {
+        //         livereload: true,
+        //         spawn: false
+        //     },
 
-            js: {
-                files: ['src/js/**/*.js'],
-                tasks: ['buildJS', 'hashres']
-            },
+        //     css: {
+        //         files: ['src/**/*.less', 'src/**/*.scss'],
+        //         tasks: ['buildCSS', 'hashres']
+        //     },
 
-            jstest: {
-                files: ['test/**/*.js'],
-                tasks: ['karma:dev']
-            },
+        //     js: {
+        //         files: ['src/js/**/*.js'],
+        //         tasks: ['buildJS', 'hashres']
+        //     },
 
-            assemble: {
-                files: ['content/**/*', 'src/templates/**/*'],
-                tasks: ['assemble', 'hashres']
-            }
-        }
+        //     jstest: {
+        //         files: ['test/**/*.js'],
+        //         tasks: ['karma:dev']
+        //     },
+
+        //     assemble: {
+        //         files: ['content/**/*', 'src/templates/**/*'],
+        //         tasks: ['assemble', 'hashres']
+        //     }
+        // }
     });
 
     grunt.registerTask('assemble-site', ['assemble', 'hashres']);

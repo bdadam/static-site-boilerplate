@@ -14,6 +14,10 @@ const options = {
         entry: 'src/scss/main.scss',
         out: `${staticDir}/main.min.css`
     },
+    less: {
+        entry: 'src/less/main.less',
+        out: `${staticDir}/main.min.css`
+    },
     env: {
         production: true
     }
@@ -29,3 +33,4 @@ gulp.task('set-dev', () => options.env.production = false);
 gulp.task('clean', loadTask('clean'));
 gulp.task('rollup', loadTask('rollup'));
 gulp.task('sass', loadTask('sass'));
+gulp.task('less', loadTask('less'));

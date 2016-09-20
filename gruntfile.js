@@ -1,8 +1,6 @@
-var webpack = require('webpack');
-
 module.exports = function(grunt) {
 
-    require('time-grunt')(grunt);
+    // require('time-grunt')(grunt);
 
     var devmode = grunt.option('dev');
 
@@ -11,9 +9,9 @@ module.exports = function(grunt) {
             options: {
                 assets: "dist/static",
                 layout: "layout.hbs",
-                partials: "src/templates/partials/**/*.hbs",
-                layoutdir: 'src/templates/layouts',
-                helpers: ['src/helpers/**.js']
+                partials: "src/assemble/partials/**/*.hbs",
+                layoutdir: 'src/assemble/layouts',
+                helpers: ['src/assemble/helpers/**.js']
             },
 
             site: {
@@ -27,85 +25,6 @@ module.exports = function(grunt) {
                     src: ['**/*.{md,hbs,html,xml}'],
                     dest: 'dist'
                 }]
-            }
-        },
-
-        clean: {
-            static: ['dist/static/**/*.{css,js}'],
-            html: ['dist/**/*.html', '!dist/google*.html']
-        },
-
-        less: {
-            main: {
-                options: {
-                    cleancss: true,
-                    compress: true
-                },
-                files: {
-                    'dist/static/main.css': 'src/less/main.less'
-                }
-            }
-        },
-
-        sass: {
-            options: {
-                sourceMap: !!devmode,
-                outputStyle: 'expanded'
-            },
-            dist: {
-                files: {
-                    'dist/static/main.css': 'src/scss/main.scss'
-                }
-            }
-        },
-
-        pleeease: {
-            dist: {
-                options: {
-                    autoprefixer: { browsers: ['last 4 versions', 'ios 6'] },
-                    filters: { oldIE: true },
-                    rem: ['12px'],
-                    minifier: true,
-                },
-                files: {
-                    'dist/static/main.css': 'dist/static/main.css'
-                }
-            }
-        },
-
-        requirejs: {
-            options: {
-                baseUrl: 'src/js',
-                wrap: true,
-                optimizeAllPluginResources: true,
-                optimize: devmode ? 'none' : "uglify2",
-                findNestedDependencies: true
-            },
-
-            main: {
-                options: {
-                    name: '../bower_components/requirejs/require',
-                    include: ['main'],
-                    out: 'dist/static/main.js'
-                }
-            }
-        },
-
-        webpack: {
-            dist: {
-                entry: './src/js/main.js',
-                output: {
-                    path: "./dist/static",
-                    filename: "main.js",
-                },
-                stats: true,
-                progress: true,
-                failOnError: false,
-                cache: {},
-                plugins: !devmode ? [
-                    new webpack.optimize.DedupePlugin(),
-                    new webpack.optimize.UglifyJsPlugin()
-                ] : []
             }
         },
 
@@ -130,17 +49,13 @@ module.exports = function(grunt) {
             }
         },
 
-        eslint: {
-            src: ['src/js/**/*.js']
-        },
-
         hashres: {
             options: {
                 fileNameFormat: '${name}.${ext}?${hash}',
                 renameFiles: false
             },
             dist: {
-                src: ['dist/static/main.css', 'dist/static/main.js'],
+                src: ['dist/**/*.{js,css}'],
                 dest: 'dist/**/*.html'
             }
         },
@@ -184,20 +99,8 @@ module.exports = function(grunt) {
         }
     });
 
-    // Use either of these two tasks, depending on whether you use less or scss
-    //grunt.registerTask('buildCSS', ['less', 'pleeease']);
-    grunt.registerTask('buildCSS', ['sass', 'pleeease']);
-
-    // Use either of these two tasks, depending on whether you use RequireJS or WebPack
-    // grunt.registerTask('buildJS', ['requirejs']);
-    grunt.registerTask('buildJS', ['eslint', 'webpack', 'karma:dev']);
-
-    grunt.registerTask('build', ['clean', 'assemble', 'buildCSS', 'buildJS', 'hashres']);
-    grunt.registerTask('default', ['build']);
-
-    grunt.registerTask('dev', ['build', 'connect', 'watch']);
+    grunt.registerTask('assemble-site', ['assemble', 'hashres']);
 
     grunt.loadNpmTasks('assemble');
-    grunt.loadNpmTasks("gruntify-eslint");
-    require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+    grunt.loadNpmTasks('grunt-hashres');
 };

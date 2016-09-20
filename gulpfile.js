@@ -1,5 +1,6 @@
 const gulp = require('gulp');
 const plugins = require('gulp-load-plugins')();
+require('gulp-grunt')(gulp);
 
 const distDir = 'dist';
 const staticDir = `${distDir}`;
@@ -34,3 +35,5 @@ gulp.task('clean', loadTask('clean'));
 gulp.task('rollup', loadTask('rollup'));
 gulp.task('sass', loadTask('sass'));
 gulp.task('less', loadTask('less'));
+gulp.task('assemble', ['grunt-assemble']);
+gulp.task('hashres', ['grunt-hashres']);

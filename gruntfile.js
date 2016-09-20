@@ -189,8 +189,8 @@ module.exports = function(grunt) {
     grunt.registerTask('buildCSS', ['sass', 'pleeease']);
 
     // Use either of these two tasks, depending on whether you use RequireJS or WebPack
-    grunt.registerTask('buildJS', ['requirejs']);
-    //grunt.registerTask('buildJS', ['eslint', 'webpack', 'karma:dev']);
+    // grunt.registerTask('buildJS', ['requirejs']);
+    grunt.registerTask('buildJS', ['eslint', 'webpack', 'karma:dev']);
 
     grunt.registerTask('build', ['clean', 'assemble', 'buildCSS', 'buildJS', 'hashres']);
     grunt.registerTask('default', ['build']);

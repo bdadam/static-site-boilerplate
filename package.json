@@ -1,6 +1,6 @@
 {
   "name": "static-site-boilerplate",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Some boilerplate code for static site generation",
   "scripts": {},
